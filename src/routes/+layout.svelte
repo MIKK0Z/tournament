@@ -1,7 +1,7 @@
 <script>
 	import "../app.css";
 	import "@fontsource/material-icons";
-	import "@fontsource-variable/jetbrains-mono";
+	import "@fontsource/jetbrains-mono";
 </script>
 
 <header class="bg-primary p-4">

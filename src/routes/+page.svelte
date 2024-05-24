@@ -3,6 +3,7 @@
 
 	type Player = {
 		id: string;
+		created_at: string;
 		name: string;
 		surname: string;
 		age: number;
@@ -32,6 +33,7 @@
 				<th>last name</th>
 				<th>age</th>
 				<th>city</th>
+				<th>created at</th>
 				<th></th>
 				<th></th>
 			</tr>
@@ -45,9 +47,10 @@
 						<td>{player.surname}</td>
 						<td>{player.age}</td>
 						<td>{player.city}</td>
+						<td>{player.created_at}</td>
 						<td>
 							<a
-								href="/"
+								href="/editPlayer?id={player.id}"
 								class="btn btn-warning"
 							>
 								edit
@@ -58,16 +61,26 @@
 							</a>
 						</td>
 						<td>
-							<button
-								class="btn btn-error"
+							<form
+								method="POST"
+								action="?/deleteUser"
 							>
-								delete
-
-								<span
-									class="icon"
-									>delete</span
+								<input
+									type="hidden"
+									name="id"
+									value={player.id}
+								/>
+								<button
+									class="btn btn-error"
 								>
-							</button>
+									delete
+
+									<span
+										class="icon"
+										>delete</span
+									>
+								</button>
+							</form>
 						</td>
 					</tr>
 				{/each}
