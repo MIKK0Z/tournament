@@ -1,6 +1,11 @@
 import { fail, redirect } from '@sveltejs/kit';
-import type { Action, Actions } from './$types';
-import { supabase } from '$lib/supabase';
+import type { Action, Actions, PageServerLoad } from './$types';
+import { db } from '$lib/server/db';
+
+export const load: PageServerLoad = async () => {
+	const players = await db.player.findMany();
+	return { players };
+}
 
 const deleteUser: Action = async ({ request }) => {
 	const data = await request.formData();
@@ -11,10 +16,9 @@ const deleteUser: Action = async ({ request }) => {
 		return fail(400);
 	}
 
-	await supabase
-		.from('players')
-		.delete()
-		.eq('id', id);
+	await db.player.delete({
+		where: { id },
+	})
 
 	redirect(302, '/');
 }

@@ -27,6 +27,6 @@
 	"dependencies": {
 		"@fontsource/jetbrains-mono": "^5.0.20",
 		"@fontsource/material-icons": "^5.0.18",
-		"@supabase/supabase-js": "^2.43.4"
+		"@prisma/client": "^5.14.0"
 	}
 }

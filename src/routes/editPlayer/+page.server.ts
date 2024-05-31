@@ -1,6 +1,7 @@
 import { fail, redirect } from '@sveltejs/kit';
 import type { Action, Actions } from './$types';
 import { supabase } from '$lib/supabase';
+import { db } from "$lib/server/db";
 
 const editUser: Action = async ({ request }) => {
 	const data = await request.formData();
@@ -24,10 +25,15 @@ const editUser: Action = async ({ request }) => {
 
 	const ageI = parseInt(age);
 
-	await supabase
-		.from('players')
-		.update({ name, surname, age: ageI, city })
-		.eq('id', id)
+	await db.player.update({
+		where: { id },
+		data: {
+			name,
+			surname,
+			age: ageI,
+			city,
+		},
+	})
 
 	redirect(302, '/');
 }
