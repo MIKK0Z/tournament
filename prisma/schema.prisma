@@ -9,8 +9,8 @@ datasource db {
 }
 
 model Player {
-  id          String        @id @default(uuid())
-  createdAt   DateTime      @default(now()) @db.Timestamptz(3)
+  id          String            @id @default(uuid())
+  createdAt   DateTime          @default(now()) @db.Timestamptz(3)
   name        String
   surname     String
   age         Int
@@ -19,8 +19,15 @@ model Player {
 }
 
 model Tournament {
-  id          String        @id @default(uuid())
-  createdAt   DateTime      @default(now()) @db.Timestamptz(3)
+  id          String            @id @default(uuid())
+  createdAt   DateTime          @default(now()) @db.Timestamptz(3)
   name        String
+  status      TournamentStatus  @default(notStarted)
   players     Player[]
+}
+
+enum TournamentStatus {
+  notStarted
+  inProgress
+  finished
 }

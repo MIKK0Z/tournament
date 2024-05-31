@@ -50,7 +50,7 @@
 		<div
 			class="mt-4 grid justify-stretch grid-rows-1 grid-cols-2 gap-4"
 		>
-			<a href="/" class="btn btn-warning">cancel</a>
+			<a href="/players" class="btn btn-warning">cancel</a>
 			<button type="submit" class="btn btn-primary"
 				>add</button
 			>

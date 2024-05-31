@@ -3,7 +3,9 @@ import type { Action, Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 
 export const load: PageServerLoad = async () => {
-	const tournaments = await db.tournament.findMany();
+	const tournaments = await db.tournament.findMany({
+		include: { players: true }
+	});
 	return { tournaments };
 }
 
