@@ -1,6 +1,5 @@
 import { fail, redirect } from '@sveltejs/kit';
 import type { Action, Actions } from './$types';
-import { supabase } from '$lib/supabase';
 import { db } from "$lib/server/db";
 
 const editUser: Action = async ({ request }) => {
@@ -35,7 +34,7 @@ const editUser: Action = async ({ request }) => {
 		},
 	})
 
-	redirect(302, '/');
+	redirect(302, '/players');
 }
 
 export const actions: Actions = { editUser };

@@ -9,10 +9,18 @@ datasource db {
 }
 
 model Player {
-  id        String    @id @default(uuid())
-  createdAt DateTime  @default(now()) @db.Timestamptz(3)
-  name      String
-  surname   String
-  age       Int
-  city      String
+  id          String        @id @default(uuid())
+  createdAt   DateTime      @default(now()) @db.Timestamptz(3)
+  name        String
+  surname     String
+  age         Int
+  city        String
+  tournaments Tournament[]
+}
+
+model Tournament {
+  id          String        @id @default(uuid())
+  createdAt   DateTime      @default(now()) @db.Timestamptz(3)
+  name        String
+  players     Player[]
 }

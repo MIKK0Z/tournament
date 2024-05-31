@@ -31,7 +31,7 @@ const addUser: Action = async ({ request }) => {
 		}
 	})
 
-	redirect(302, '/');
+	redirect(302, '/players');
 }
 
 export const actions: Actions = { addUser };

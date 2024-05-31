@@ -20,7 +20,7 @@ const deleteUser: Action = async ({ request }) => {
 		where: { id },
 	})
 
-	redirect(302, '/');
+	redirect(302, '/players');
 }
 
 export const actions: Actions = { deleteUser };
