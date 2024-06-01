@@ -27,6 +27,8 @@
 	"dependencies": {
 		"@fontsource/jetbrains-mono": "^5.0.20",
 		"@fontsource/material-icons": "^5.0.18",
-		"@prisma/client": "^5.14.0"
+		"@prisma/client": "^5.14.0",
+		"brackets-manager": "^1.6.4",
+		"brackets-memory-db": "^1.0.4"
 	}
 }

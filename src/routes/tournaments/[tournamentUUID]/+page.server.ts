@@ -4,7 +4,7 @@ import { db } from "$lib/server/db";
 export const load: PageServerLoad = async ({ params }) => {
     const { tournamentUUID } = params;
     const tournament = await db.tournament.findUniqueOrThrow({
-        where: { id: tournamentUUID },
+        where: { id: parseInt(tournamentUUID) },
         include: { players: true },
     });
 

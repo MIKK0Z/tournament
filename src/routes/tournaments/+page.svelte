@@ -16,7 +16,7 @@
 	<table class="table table-zebra table-fixed">
 		<thead>
 			<tr>
-				<th>uuid</th>
+				<th>id</th>
 				<th>name</th>
                 <th>status</th>
 				<th>count of players</th>

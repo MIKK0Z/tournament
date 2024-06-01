@@ -5,7 +5,7 @@ import { fail } from "@sveltejs/kit";
 export const load: PageServerLoad = async ({ params }) => {
     const { tournamentUUID } = params;
     const tournament = await db.tournament.findUniqueOrThrow({
-        where: { id: tournamentUUID },
+        where: { id: parseInt(tournamentUUID) },
         include: { players: true },
     });
 
@@ -25,10 +25,10 @@ const addPlayer: Action = async ({ request }) => {
     }
 
     await db.tournament.update({
-        where: { id: tournamentID },
+        where: { id: parseInt(tournamentID) },
         data: {
             players: {
-                connect: { id: playerID },
+                connect: { id: parseInt(playerID) },
             },
         },
     })
@@ -46,10 +46,10 @@ const deletePlayer: Action = async ({ request }) => {
     }
 
     await db.tournament.update({
-        where: { id: tournamentID },
+        where: { id: parseInt(tournamentID) },
         data: {
             players: {
-                disconnect: { id: playerID },
+                disconnect: { id: parseInt(playerID) },
             },
         },
     })

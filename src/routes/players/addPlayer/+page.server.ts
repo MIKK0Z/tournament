@@ -20,13 +20,11 @@ const addUser: Action = async ({ request }) => {
 		return fail(400);
 	}
 
-	const ageI = parseInt(age);
-
 	await db.player.create({
 		data: {
 			name,
 			surname,
-			age: ageI,
+			age: parseInt(age),
 			city,
 		}
 	})

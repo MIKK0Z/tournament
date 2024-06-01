@@ -25,7 +25,7 @@ const editUser: Action = async ({ request }) => {
 	const ageI = parseInt(age);
 
 	await db.player.update({
-		where: { id },
+		where: { id: parseInt(id) },
 		data: {
 			name,
 			surname,

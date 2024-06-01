@@ -17,7 +17,7 @@
 	<table class="table table-zebra table-fixed">
 		<thead>
 			<tr>
-				<th>uuid</th>
+				<th>id</th>
 				<th>first name</th>
 				<th>last name</th>
 				<th>age</th>

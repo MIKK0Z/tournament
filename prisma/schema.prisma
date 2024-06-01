@@ -9,7 +9,7 @@ datasource db {
 }
 
 model Player {
-  id          String            @id @default(uuid())
+  id          Int               @id @default(autoincrement())
   createdAt   DateTime          @default(now()) @db.Timestamptz(3)
   name        String
   surname     String
@@ -19,7 +19,7 @@ model Player {
 }
 
 model Tournament {
-  id          String            @id @default(uuid())
+  id          Int               @id @default(autoincrement())
   createdAt   DateTime          @default(now()) @db.Timestamptz(3)
   name        String
   status      TournamentStatus  @default(notStarted)

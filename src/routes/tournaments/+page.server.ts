@@ -19,7 +19,7 @@ const deleteUser: Action = async ({ request }) => {
 	}
 
 	await db.player.delete({
-		where: { id },
+		where: { id: parseInt(id) },
 	})
 
 	redirect(302, '/players');
