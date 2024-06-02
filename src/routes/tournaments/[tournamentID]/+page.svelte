@@ -1,6 +1,5 @@
 <script lang="ts">
     import { browser } from "$app/environment";
-  import { onMount } from "svelte";
     import type { PageData } from "./$types";
 
     export let data: PageData;
@@ -36,6 +35,8 @@
             matchGames: tournamentData.match_game,
             participants: tournamentData.participant,
         });
+
+        console.log(JSON.stringify(tournamentData))
     }
 
     const getSmallestHigherPowerOfTwo = (num: number) => {

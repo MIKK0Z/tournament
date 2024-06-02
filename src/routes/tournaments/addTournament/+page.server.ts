@@ -14,7 +14,7 @@ const addTournament: Action = async ({ request }) => {
 	await db.tournament.create({
 		data: {
 			name,
-		}
+		},
 	})
 
 	redirect(302, '/tournaments');
