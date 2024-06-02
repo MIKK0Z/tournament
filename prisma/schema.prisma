@@ -26,17 +26,10 @@ model Tournament {
   status      TournamentStatus  @default(notStarted)
   players     Player[]
   data        String            @default("{}")
-  pairingMode PairingMode       @default(name)
 }
 
 enum TournamentStatus {
   notStarted
   inProgress
   finished
-}
-
-enum PairingMode {
-  name
-  age
-  ranking
 }

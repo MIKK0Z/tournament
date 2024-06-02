@@ -22,6 +22,7 @@
 				<th>count of players</th>
 				<th>created at</th>
 				<th>go to tournament</th>
+				<th>delete</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -46,6 +47,25 @@
 								see results
 							</a>
 						{/if}
+					</td>
+					<td>
+						<form
+								method="POST"
+								action="?/deleteTournament"
+							>
+								<input
+									type="hidden"
+									name="id"
+									value={tournament.id}
+								/>
+								<button
+									class="btn btn-error"
+									type="submit"
+								>
+									delete
+									<span class="icon">delete</span>
+								</button>
+							</form>
 					</td>
 				</tr>
 			{/each}

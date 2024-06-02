@@ -9,7 +9,7 @@ export const load: PageServerLoad = async () => {
 	return { tournaments };
 }
 
-const deleteUser: Action = async ({ request }) => {
+const deleteTournament: Action = async ({ request }) => {
 	const data = await request.formData();
 	const id = data.get('id');
 
@@ -18,12 +18,10 @@ const deleteUser: Action = async ({ request }) => {
 		return fail(400);
 	}
 
-	await db.player.delete({
+	await db.tournament.delete({
 		where: { id: parseInt(id) },
 	})
-
-	redirect(302, '/players');
 }
 
-// export const actions: Actions = { deleteUser };
+export const actions: Actions = { deleteTournament };
 

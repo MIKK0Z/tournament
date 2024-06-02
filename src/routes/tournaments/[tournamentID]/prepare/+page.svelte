@@ -1,5 +1,6 @@
 <script lang="ts">
-    import type { PageData } from "./$types";
+    import { el } from "@faker-js/faker";
+import type { PageData } from "./$types";
     
     export let data: PageData;
 
@@ -42,7 +43,27 @@
 			{/each}
 		</tbody>
 	</table>
-	<form action="?/start" method="POST">
-		<button type="submit" class="btn btn-primary">start<span class="icon">flag</span></button>
-	</form>
+	<div class="divider divider-vertical"></div>
+
+	<h2 class="text-xl font-semibold">select pairing mode</h2>
+	<select name="pairingMode" class="select select-bordered w-full max-w-xs" form="tournamentPrepareForm">
+		<option value="name">name</option>
+		<option value="age">age</option>
+		<option value="ranking">ranking</option>
+	</select>
+	<div class="divider divider-vertical"></div>
+
+	{#if tournament.players.length > 1}
+		<form
+			action="?/start"
+			method="POST"
+			id="tournamentPrepareForm"
+		>
+			<button type="submit" class="btn btn-primary">start<span class="icon">flag</span></button>
+		</form>
+	{:else}
+		<span class="btn btn-disabled">start<span class="icon">flag</span></span>
+	{/if}
+
+	
 </div>
