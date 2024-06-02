@@ -21,8 +21,7 @@
                 <th>status</th>
 				<th>count of players</th>
 				<th>created at</th>
-				<th>add players</th>
-				<th></th>
+				<th>go to tournament</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -33,27 +32,20 @@
                     <td>{tournament.status.split(/(?=[A-Z])/).map(word => word.toLowerCase()).join(' ')}</td>
 					<td>{tournament.players.length}</td>
 					<td>{tournament.createdAt}</td>
-                    <td>
-                        {#if tournament.status === 'notStarted'}
-                            <a href="/tournaments/{tournament.id}/selectPlayers" class="btn btn-primary">
-                                Select players <span class="icon">person_add</span>
-                            </a>
-                        {:else}
-                            <span class="btn btn-disabled">
-                                Select players <span class="icon">person_add</span>
-                            </span>
-                        {/if}
-                    </td>
 					<td>
-						<a href="/tournaments/{tournament.id}" class="btn btn-primary w-2/3">
-							{#if tournament.status === 'notStarted'}
-								start
-							{:else if tournament.status === 'inProgress'}
+						{#if tournament.status === 'notStarted'}
+							<a href="/tournaments/{tournament.id}/prepare" class="btn btn-primary w-2/3">
+								prepare
+							</a>
+						{:else if tournament.status === 'inProgress'}
+							<a href="/tournaments/{tournament.id}/continue" class="btn btn-primary w-2/3">
 								continue
-							{:else}
-								see resuts
-							{/if}
-						</a>
+							</a>
+						{:else}
+							<a href="/tournaments/{tournament.id}/results" class="btn btn-primary w-2/3">
+								see results
+							</a>
+						{/if}
 					</td>
 				</tr>
 			{/each}

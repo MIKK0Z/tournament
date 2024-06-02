@@ -7,17 +7,11 @@
 </script>
 
 <div class="min-h-dvh flex flex-col gap-4 items-center p-24">
-	<h2 class="text-xl font-semibold">Players</h2>
-	<a
-		href="/players/addPlayer"
-		class="btn btn-primary"
-	>
-		Add player <span class="icon">person_add</span>
-	</a>
+	<h2 class="text-xl font-semibold">select players</h2>
 	<table class="table table-zebra table-fixed">
 		<thead>
 			<tr>
-				<th>uuid</th>
+				<th>id</th>
 				<th>first name</th>
 				<th>last name</th>
 				<th>wybierz</th>
@@ -48,5 +42,7 @@
 			{/each}
 		</tbody>
 	</table>
-	<a href="/tournaments" class="btn btn-primary"><span class="icon">arrow_back</span>return</a>
+	<form action="?/start" method="POST">
+		<button type="submit" class="btn btn-primary">start<span class="icon">flag</span></button>
+	</form>
 </div>

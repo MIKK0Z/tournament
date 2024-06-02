@@ -15,6 +15,7 @@ model Player {
   surname     String
   age         Int
   city        String
+  ranking     Int               @default(0)
   tournaments Tournament[]
 }
 

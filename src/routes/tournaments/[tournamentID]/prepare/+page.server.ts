@@ -1,17 +1,17 @@
 import type { PageServerLoad, Action, Actions } from "./$types";
 import { db } from "$lib/server/db";
-import { fail } from "@sveltejs/kit";
+import { fail, redirect } from "@sveltejs/kit";
 
 export const load: PageServerLoad = async ({ params }) => {
-    const { tournamentUUID } = params;
+    const { tournamentID } = params;
     const tournament = await db.tournament.findUniqueOrThrow({
-        where: { id: parseInt(tournamentUUID) },
+        where: { id: parseInt(tournamentID) },
         include: { players: true },
     });
 
     const players = await db.player.findMany();
 
-    return { tournament, players };
+    return { tournament, players, tournamentID };
 }
 
 const addPlayer: Action = async ({ request }) => {
@@ -55,4 +55,15 @@ const deletePlayer: Action = async ({ request }) => {
     })
 }
 
-export const actions: Actions = { addPlayer, deletePlayer };
+const start: Action = async ({ params }) => {
+    const { tournamentID } = params;
+
+    await db.tournament.update({
+        where: { id: parseInt(tournamentID) },
+        data: { status: 'inProgress' },
+    })
+
+    throw redirect(302, `/tournament/${tournamentID}/continue`)
+}
+
+export const actions: Actions = { addPlayer, deletePlayer, start };

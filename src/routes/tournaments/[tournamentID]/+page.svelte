@@ -1,5 +1,6 @@
 <script lang="ts">
     import { browser } from "$app/environment";
+  import { onMount } from "svelte";
     import type { PageData } from "./$types";
 
     export let data: PageData;
@@ -19,10 +20,11 @@
             name: tournament.name,
             tournamentId: tournament.id,
             type: 'single_elimination',
-            seeding: players.map(({ name }) => name),
+            seeding: players.map(({ name, surname }) => `${name} ${surname}`),
             settings: {
                 size,
                 groupCount: 1,
+                seedOrdering: ['reverse']
             }
         })
 
@@ -45,7 +47,16 @@
         return power;
     }
 
-    $: if (browser && tournament) createTournament();
+    const windowLoad: Promise<void> = new Promise((resolve, reject) => {
+        if (!browser) reject();
+        const interval = setInterval(() => {
+            if (tournament && window && (window as typeof window & { bracketsViewer: any }).bracketsViewer) {
+                resolve();
+                clearInterval(interval);
+                createTournament();
+            }
+        }, 500)
+    })
 </script>
 
 <svelte:head>
@@ -53,30 +64,19 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brackets-viewer@latest/dist/brackets-viewer.min.js"></script>
 </svelte:head>
 
-
-<div class="brackets-viewer"></div>
-
-
-<!-- {JSON.stringify(tournament)} -->
-
-<!-- 
-
-szyom orczyk
---- szyon grela
-kuba 
---- michal pacia
---- micahl karp
-filip jaskulski
-mateusz klimek
-filip wy
---- mateusz strug
---- oskar
-franek
-karol
-nikodem
---- bartek trojan
-marek
-wiktor
-tomek
-
- -->
+<div class="grid min-h-dvh">
+    {#await windowLoad}
+        <div class="place-self-center flex flex-col items-center gap-4">
+            <span class="loading loading-spinner loading-lg"></span>
+            <h3>Loading</h3>
+        </div>
+    {:then _window}
+        <div class="brackets-viewer grid place-content-center"></div>
+    {:catch _error}
+    <div class="place-self-center flex flex-col items-center gap-4">
+        <span class="icon text-7xl">warning</span>
+        <h3>something went wrong</h3>
+        <button type="button" class="btn btn-primary" on:click={() => {location.reload()}}>try again</button>
+    </div>
+    {/await}
+</div>
