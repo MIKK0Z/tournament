@@ -1,4 +1,12 @@
 <script lang="ts">
+    let matchDialog: HTMLDialogElement;
+    
+    let firstPlayerName = '';
+    let firstPlayerScore = 0;
+
+    let secondPlayerName = '';
+    let secondPlayerScore = 0;
+
     import { browser } from "$app/environment";
     import type { PageData } from "./$types";
 
@@ -8,19 +16,34 @@
     $: ({ data: stringifiedTournamentData } = tournament);
     $: tournamentData = JSON.parse(stringifiedTournamentData);
 
-    // import { BracketsManager } from "brackets-manager";
-    // import { InMemoryDatabase } from "brackets-memory-db";
+    import { BracketsManager } from "brackets-manager";
+    import { InMemoryDatabase } from "brackets-memory-db";
 
-    // const storage = new InMemoryDatabase();
-    // const manager = new BracketsManager(storage);
+    const storage = new InMemoryDatabase();
+    const manager = new BracketsManager(storage);
 
-    const renderTournament = () => {
+    const renderTournament = async () => {
+        await manager.import(tournamentData);
+
+        const storedData = await manager.get.tournamentData(tournament.id);
+
         (window as typeof window & { bracketsViewer: any }).bracketsViewer.render({
-            stages: tournamentData.stage,
-            matches: tournamentData.match,
-            matchGames: tournamentData.match_game,
-            participants: tournamentData.participant,
+            stages: storedData.stage,
+            matches: storedData.match,
+            matchGames: storedData.match_game,
+            participants: storedData.participant,
         });
+
+        (window as typeof window & { bracketsViewer: any }).bracketsViewer.onMatchClicked = async (match: any) => {
+            console.log(match)
+            // const matchID = m.id ?? 0;
+            // const match = await manager.get.
+
+            // const a = await manager.get.
+
+            // firstPlayerName = match
+            // matchDialog.showModal();
+        }
     }
 
     const windowLoad: Promise<void> = new Promise((resolve, reject) => {
@@ -31,9 +54,9 @@
                 clearInterval(interval);
                 setTimeout(() => {
                     renderTournament();
-                }, 50)
+                }, 10)
             }
-        }, 500)
+        }, 50)
     })
 </script>
 
@@ -58,3 +81,13 @@
     </div>
     {/await}
 </div>
+
+<dialog class="modal" bind:this={matchDialog}>
+    <div class="modal-box">
+        <h3 class="font-bold text-lg">Hello!</h3>
+        <p class="py-4">Press ESC key or click outside to close</p>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+    </form>
+</dialog>
