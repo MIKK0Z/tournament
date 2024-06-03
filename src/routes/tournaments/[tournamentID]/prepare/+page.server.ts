@@ -14,6 +14,10 @@ export const load: PageServerLoad = async ({ params }) => {
         include: { players: true },
     });
 
+    if (tournament.status !== 'notStarted') {
+        throw redirect(302, `/tournaments/${tournamentID}/continue`);
+    }
+
     const players = await db.player.findMany();
 
     return { tournament, players, tournamentID };

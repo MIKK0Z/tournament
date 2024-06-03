@@ -9,23 +9,25 @@ datasource db {
 }
 
 model Player {
-  id          Int               @id @default(autoincrement())
-  createdAt   DateTime          @default(now()) @db.Timestamptz(3)
-  name        String
-  surname     String
-  age         Int
-  city        String
-  ranking     Int               @default(0)
-  tournaments Tournament[]
+  id            Int               @id @default(autoincrement())
+  createdAt     DateTime          @default(now()) @db.Timestamptz(3)
+  name          String
+  surname       String
+  age           Int
+  city          String
+  ranking       Int               @default(0)
+  tournaments   Tournament[]
 }
 
 model Tournament {
-  id          Int               @id @default(autoincrement())
-  createdAt   DateTime          @default(now()) @db.Timestamptz(3)
-  name        String
-  status      TournamentStatus  @default(notStarted)
-  players     Player[]
-  data        String            @default("{}")
+  id            Int               @id @default(autoincrement())
+  createdAt     DateTime          @default(now()) @db.Timestamptz(3)
+  name          String
+  status        TournamentStatus  @default(notStarted)
+  players       Player[]
+  data          String            @default("{}")
+  currentRound  Int               @default(0)
+  isFinished    Boolean           @default(false)
 }
 
 enum TournamentStatus {
