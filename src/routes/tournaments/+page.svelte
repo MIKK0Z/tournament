@@ -22,6 +22,7 @@
 				<th>count of players</th>
 				<th>created at</th>
 				<th>go to tournament</th>
+				<th>edit</th>
 				<th>delete</th>
 			</tr>
 		</thead>
@@ -47,6 +48,15 @@
 								see results
 							</a>
 						{/if}
+					</td>
+					<td>
+						<a
+							href="/tournaments/editTournament?id={tournament.id}"
+							class="btn btn-warning"
+						>
+							edit
+							<span class="icon">edit</span>
+						</a>
 					</td>
 					<td>
 						<form
