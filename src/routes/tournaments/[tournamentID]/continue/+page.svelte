@@ -6,11 +6,11 @@
 
     let matchID = 0;
     let currentRoundDiff = 0;
-    
-    let firstPlayerName = '';
+
+    let firstPlayerName = "";
     let firstPlayerScore = 0;
 
-    let secondPlayerName = '';
+    let secondPlayerName = "";
     let secondPlayerScore = 0;
 
     import { browser } from "$app/environment";
@@ -34,27 +34,43 @@
 
         await rerenderTournament();
         await addOnClickMatch();
-    }
+    };
 
     const rerenderTournament = async () => {
         const storedData = await manager.get.tournamentData(tournament.id);
         const { match: matches } = storedData;
 
-        if(matches.filter(({ round_id }) => round_id === tournament.currentRound).every(({ opponent1, opponent2 }) => (!opponent1 && !opponent2) || (opponent1?.result))) {
+        if (
+            matches
+                .filter(({ round_id }) => round_id === tournament.currentRound)
+                .every(
+                    ({ opponent1, opponent2 }) =>
+                        (!opponent1 && !opponent2) || opponent1?.result,
+                )
+        ) {
             currentRoundDiff = 1;
         }
 
-        (window as typeof window & { bracketsViewer: any }).bracketsViewer.render({
+        (
+            window as typeof window & { bracketsViewer: any }
+        ).bracketsViewer.render({
             stages: storedData.stage,
             matches: storedData.match,
             matchGames: storedData.match_game,
             participants: storedData.participant,
         });
-    }
+    };
 
     const addOnClickMatch = async () => {
-        (window as typeof window & { bracketsViewer: any }).bracketsViewer.onMatchClicked = async (match: Match) => {
-            if (!match.opponent1 || !match.opponent2 || (!match.opponent1.id && match.opponent1.id !== 0) || (!match.opponent2.id && match.opponent2.id !== 0)) {
+        (
+            window as typeof window & { bracketsViewer: any }
+        ).bracketsViewer.onMatchClicked = async (match: Match) => {
+            if (
+                !match.opponent1 ||
+                !match.opponent2 ||
+                (!match.opponent1.id && match.opponent1.id !== 0) ||
+                (!match.opponent2.id && match.opponent2.id !== 0)
+            ) {
                 return;
             }
 
@@ -65,18 +81,22 @@
             const savedData = await manager.get.tournamentData(tournament.id);
             const { participant: participants } = savedData;
 
-            if (match.round_id !== (tournament.currentRound + currentRoundDiff)) {
+            if (match.round_id !== tournament.currentRound + currentRoundDiff) {
                 // return; // do wywalenia to jest
             }
 
             matchID = match.id;
 
-            firstPlayerName = participants.find(({ id }) => id === match.opponent1.id)?.name ?? '';
-            secondPlayerName = participants.find(({ id }) => id === match.opponent2.id)?.name ?? '';
+            firstPlayerName =
+                participants.find(({ id }) => id === match.opponent1.id)
+                    ?.name ?? "";
+            secondPlayerName =
+                participants.find(({ id }) => id === match.opponent2.id)
+                    ?.name ?? "";
 
             matchDialog.showModal();
-        }
-    }
+        };
+    };
 
     const isFinished = async () => {
         try {
@@ -85,26 +105,36 @@
         } catch (error) {
             return false;
         }
-        
-    }
+    };
 
     const windowLoad: Promise<void> = new Promise((resolve, reject) => {
         if (!browser) reject();
         const interval = setInterval(() => {
-            if (tournament && window && (window as typeof window & { bracketsViewer: any }).bracketsViewer) {
+            if (
+                tournament &&
+                window &&
+                (window as typeof window & { bracketsViewer: any })
+                    .bracketsViewer
+            ) {
                 resolve();
                 clearInterval(interval);
                 setTimeout(() => {
                     renderTournament();
-                }, 10)
+                }, 10);
             }
-        }, 50)
-    })
+        }, 50);
+    });
 </script>
 
 <svelte:head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/brackets-viewer@latest/dist/brackets-viewer.min.css" />
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brackets-viewer@latest/dist/brackets-viewer.min.js"></script>
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/brackets-viewer@latest/dist/brackets-viewer.min.css"
+    />
+    <script
+        type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/brackets-viewer@latest/dist/brackets-viewer.min.js"
+    ></script>
 </svelte:head>
 
 <div class="grid min-h-dvh">
@@ -114,13 +144,22 @@
             <h3>Loading</h3>
         </div>
     {:then _window}
-        <div class="brackets-viewer grid place-content-center" bind:this={bracketsViewerDiv}></div>
+        <div
+            class="brackets-viewer grid place-content-center"
+            bind:this={bracketsViewerDiv}
+        ></div>
     {:catch _error}
-    <div class="place-self-center flex flex-col items-center gap-4">
-        <span class="icon text-7xl">warning</span>
-        <h3>something went wrong</h3>
-        <button type="button" class="btn btn-primary" on:click={() => {location.reload()}}>try again</button>
-    </div>
+        <div class="place-self-center flex flex-col items-center gap-4">
+            <span class="icon text-7xl">warning</span>
+            <h3>something went wrong</h3>
+            <button
+                type="button"
+                class="btn btn-primary"
+                on:click={() => {
+                    location.reload();
+                }}>try again</button
+            >
+        </div>
     {/await}
 </div>
 
@@ -130,12 +169,22 @@
         <div class="flex my-4">
             <div class="flex-1 space-y-2 flex flex-col justify-between">
                 <h3 class="text-center">{firstPlayerName}</h3>
-                <input type="number" placeholder="score" class="input input-bordered w-full" bind:value={firstPlayerScore} />
+                <input
+                    type="number"
+                    placeholder="score"
+                    class="input input-bordered w-full"
+                    bind:value={firstPlayerScore}
+                />
             </div>
             <div class="divider divider-horizontal">VS</div>
             <div class="flex-1 space-y-2 flex flex-col justify-between">
                 <h3 class="text-center">{secondPlayerName}</h3>
-                <input type="number" placeholder="score" class="input input-bordered w-full" bind:value={secondPlayerScore} />
+                <input
+                    type="number"
+                    placeholder="score"
+                    class="input input-bordered w-full"
+                    bind:value={secondPlayerScore}
+                />
             </div>
         </div>
         <div class="modal-action">
@@ -148,31 +197,60 @@
                 use:enhance={async ({ formData }) => {
                     await manager.update.match({
                         id: matchID,
-                        opponent1: { score: firstPlayerScore, result: firstPlayerScore >= secondPlayerScore ? 'win' : 'loss' },
-                        opponent2: { score: secondPlayerScore, result: firstPlayerScore < secondPlayerScore ? 'win' : 'loss' },
-                    })
+                        opponent1: {
+                            score: firstPlayerScore,
+                            result:
+                                firstPlayerScore >= secondPlayerScore
+                                    ? "win"
+                                    : "loss",
+                        },
+                        opponent2: {
+                            score: secondPlayerScore,
+                            result:
+                                firstPlayerScore < secondPlayerScore
+                                    ? "win"
+                                    : "loss",
+                        },
+                    });
 
                     const newData = await manager.get.stageData(0);
-                    formData.set('data', JSON.stringify(newData));
+                    formData.set("data", JSON.stringify(newData));
 
-                    formData.set('currentRound', `${tournament.currentRound + currentRoundDiff}`);
+                    formData.set(
+                        "currentRound",
+                        `${tournament.currentRound + currentRoundDiff}`,
+                    );
 
                     const isFinishedVal = await isFinished();
-                    formData.set('isFinished', `${isFinishedVal}`);
+                    formData.set("isFinished", `${isFinishedVal}`);
 
                     matchDialog.close();
 
+                    formData.set(
+                        "winner",
+                        isFinishedVal
+                            ? firstPlayerScore >= secondPlayerScore
+                                ? firstPlayerName
+                                : secondPlayerName
+                            : "",
+                    );
+
                     matchID = 0;
-                    firstPlayerName = '';
+                    firstPlayerName = "";
                     firstPlayerScore = 0;
-                    secondPlayerName = '';
+                    secondPlayerName = "";
                     secondPlayerScore = 0;
 
                     bracketsViewerDiv?.replaceChildren();
                     await rerenderTournament();
                 }}
             >
-                <button type="submit" class="btn btn-primary" disabled={firstPlayerScore === secondPlayerScore}>save</button>
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                    disabled={firstPlayerScore === secondPlayerScore}
+                    >save</button
+                >
             </form>
         </div>
     </div>
@@ -180,3 +258,4 @@
         <button>close</button>
     </form>
 </dialog>
+

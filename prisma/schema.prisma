@@ -27,7 +27,7 @@ model Tournament {
   players       Player[]
   data          String            @default("{}")
   currentRound  Int               @default(0)
-  isFinished    Boolean           @default(false)
+  winner        String            @default("")
 }
 
 enum TournamentStatus {
